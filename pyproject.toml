@@ -1,0 +1,65 @@
+[project]
+name = "orion"
+description = """Servidor intermediário."""
+authors = [
+    {name = "BruRdgz", email = "bru.rdgz@gmail.com"},
+]
+
+dynamic = ["version"]
+license = { text = "Apache-2.0" }
+readme = "README.md"
+
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]==0.115.13",
+    "pydantic-settings==2.9.1",
+    "structlog==25.4.0",
+]
+
+[dependency-groups]
+dev = [
+    { include-group = "lint" },
+    { include-group = "tests" },
+]
+lint = [
+    "pre-commit==3.6.0",
+    "pyright==1.1.353",
+    "ruff==0.2.2",
+]
+tests = [
+    "pytest==7.4.0",
+]
+
+[tool.ruff]
+line-length = 128
+select = ["E", "F", "I", "B", "W",]
+ignore = []
+
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
+python_files = "test_*.py"
+
+[tool.pyright]
+include = [ "orion/**/*.py" ]
+venvPath = "."
+venv = ".venv"
+
+reportMissingImports = "error"
+reportUndefinedVariable = "error"
+reportUnusedImport = "error"
+reportUnusedVariable = "error"
+reportDuplicateImport = "error"
+
+strictListInference = true
+strictDictionaryInference = true
+
+reportMissingParameterType = "warning"
+reportUnknownParameterType = "warning"
+reportUnknownMemberType = "warning"
+reportUnknownArgumentType = "warning"
+
+reportPrivateUsage = "warning"
+reportUnknownVariableType = "warning"
+reportUntypedFunctionDecorator = "warning"
+
+reportMissingTypeStubs = "none"
