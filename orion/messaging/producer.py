@@ -105,21 +105,19 @@ def dispatch(
     headers: Headers | None = None,
 ) -> bool:
     """
-    Envia payload serializado para ActiveMQ via STOMP.
+    Serializa e envia um payload para ActiveMQ via STOMP.
     """
-    body = json.dumps(payload)
-    hdrs = _build_headers(headers)
     try:
-        _publish(
-            destination,
-            body,
-            hdrs,
-        )
+        body = json.dumps(payload)
+        hdrs = _build_headers(headers)
+        _publish(destination, body, hdrs)
+
         snippet = f"{body[:MAX_LOG_BODY]}..." if len(body) > MAX_LOG_BODY else body
         logger.debug(LOG_SENT, destination, snippet)
+
         return True
     except Exception as e:
-        logger.error(LOG_FAIL, e)
+        logger.error("Falha ao enviar evento: %s", e)
         return False
 
 
