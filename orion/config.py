@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -47,3 +47,27 @@ class _Server(
 
 
 server = _Server()
+
+
+class _Messenger(
+    EnvConfig,
+    env_prefix="messenger_",
+):
+    host: str = "localhost"
+    port: int = 61613
+    connection_timeout: float = 3.0
+
+    username: Optional[str] = None
+    password: Optional[str] = None
+    client_id: str = "orion-client"
+
+    # SSL não é utilizado diretamente pela lib stomp,
+    # mas pode ser usado para configuração de contexto TLS
+    # Use_ssl deve ser omitido ao criar Connection
+    use_ssl: bool = False
+
+    heartbeat: tuple[int, int] = (10000, 10000)
+    default_destination: str = "orion.events"
+
+
+messenger = _Messenger()
