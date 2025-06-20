@@ -14,7 +14,6 @@ RUN apt-get update \
 COPY pyproject.toml uv.lock ./
 
 RUN python -m pip install --upgrade pip setuptools wheel \
-    && pip install uv \
     && uv pip install . --system
 
 COPY . .
